@@ -93,5 +93,6 @@ DWORD WINAPI CWWindowAnimator(void* Unused) {
 		AnimateWindow(CW.WindowHandle, 1250, AW_BLEND);
 		Sleep(500);
 		AnimateWindow(CW.WindowHandle, 1250, AW_BLEND | AW_HIDE);
+		ResetEvent(CW.AnimatorEvent);
 	}
 }

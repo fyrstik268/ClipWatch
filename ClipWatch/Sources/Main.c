@@ -14,7 +14,7 @@ static __forceinline void CWInit(void) {
 	CWCreateWindowClass();
 	CWCreateWindow();
 	AddClipboardFormatListener(CW.WindowHandle);
-	CW.AnimatorEvent = CreateEventW(NULL, FALSE, FALSE, NULL);
+	CW.AnimatorEvent = CreateEventW(NULL, TRUE, FALSE, NULL);
 	CW.AnimatorThread = CreateThread(NULL, 1, CWWindowAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
 
 	CW.NotifyIcon.cbSize = sizeof(CW.NotifyIcon);
