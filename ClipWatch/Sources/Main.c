@@ -57,7 +57,7 @@ DECLSPEC_NORETURN
 void CWMain(void) {
 	CWInit();
 
-	while(CW.Running) {
+	while(TRUE) {
 		MSG Message;
 		while(GetMessageW(&Message, NULL, 0, 0)) {
 			TranslateMessage(&Message);
