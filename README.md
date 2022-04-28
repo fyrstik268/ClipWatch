@@ -11,5 +11,5 @@ To quit the program, you can do so by clicking on the tray icon, or through task
 To make the program automatically start when you log in, simply put the executeable (or create a shortcut) in `%appdata%\Microsoft\Windows\Start Menu\Programs\Startup`
 
 ## Requirements
-- Windows Vista (In theory, haven't tested it)
+- Windows Vista, or newer (In theory, haven't tested it)
 - 1MB RAM
