@@ -1,7 +1,5 @@
 #include <ClipWatch.h>
 
-static HWND CW_WindowHandle;
-
 static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
 	_Bool Painting = FALSE;
 	switch(Message) {
