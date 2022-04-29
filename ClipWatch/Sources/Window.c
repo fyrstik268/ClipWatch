@@ -1,5 +1,11 @@
 #include <ClipWatch.h>
 
+/* WM_CTLCOLORSTATIC
+wParam
+	Handle to the device context for the static control window.
+lParam
+	Handle to the static control. */
+
 static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
 	_Bool Painting = FALSE;
 	switch(Message) {
@@ -36,6 +42,8 @@ static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LPa
 	case WM_PRINTCLIENT:
 		RECT ClientRect;
 		GetClientRect(Window, &ClientRect);
+
+		/* Set window pos, get text size via DrawTextW() with DT_CALCRECT. */
 
 		HDC const DC = (HDC)WParam;
 		SetBkColor(DC, RGB(0x33, 0x33, 0x33));

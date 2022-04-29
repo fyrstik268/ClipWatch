@@ -1,3 +1,5 @@
+/* ClipWatch - 
+*/
 #pragma once
 
 #define _WIN32_WINNT 0x0600
@@ -5,6 +7,10 @@
 #include <Resources.h>
 
 #define WM_SHLICON WM_APP
+
+#define TIM_SETTINGS 1
+#define TIM_ABOUT 2
+#define TIM_EXIT 3
 
 extern struct CW {
 	HMODULE ProcessModule;

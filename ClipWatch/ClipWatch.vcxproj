@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Main.c" />
+    <ClCompile Include="Sources\Init.c" />
     <ClCompile Include="Sources\Window.c" />
   </ItemGroup>
   <ItemGroup>
