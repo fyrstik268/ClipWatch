@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by C:\Visual Studio\Repositories\ClipWatch\ClipWatch\Resources\Resources.rc
 //
-#define IDI_ICON1                       101
 #define IDI_ICON                        101
 #define IDD_ABOUT                       102
 #define IDD_SETTINGS                    103
@@ -21,6 +20,13 @@
 #define IDC_EDIT_FADEDELAY              1013
 #define IDC_TRIGGER_PREVIEW             1014
 #define IDC_CHOOSE_FONT                 1015
+#define IDC_POSITION_CARET              1018
+#define IDC_POSITION_CURSOR             1019
+#define IDC_POSITION_ACTIVE_MONITOR     1020
+#define IDC_POSITION_PRIMARY_MONITOR    1021
+#define IDC_CLEAR_AND_EXIT              1022
+#define IDC_SYSLINK1                    1027
+#define IDC_URL                         1027
 
 // Next default values for new objects
 // 
@@ -28,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1018
+#define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -1,28 +1,28 @@
+/* ClipWatch - Init & Shutdown code. Entrypoint 'CWMain' is here too. */
 #include <ClipWatch.h>
 
 struct CW CW;
 
 static __forceinline void CWInit(void) {
 	CW.ProcessModule = GetModuleHandleW(NULL);
-	CW.BackgroundColourBrush = CreateSolidBrush(RGB(0x33, 0x33, 0x33));
+	CWLoadConfig();
 
-	NONCLIENTMETRICSW Metrics;
-	Metrics.cbSize = sizeof(Metrics);
-	SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(Metrics), &Metrics, 0);
-	CW.Font = CreateFontIndirectW(&Metrics.lfMessageFont);
+	CW.UI.Icon = LoadIconW(CW.ProcessModule, MAKEINTRESOURCEW(IDI_ICON));
+	CW.UI.BackgroundColourBrush = CreateSolidBrush(CW.Config.BackgroundColour);
 
 	CWCreateWindowClass();
-	CWCreateWindow();
-	AddClipboardFormatListener(CW.WindowHandle);
+	CW.Windows.Main = CreateWindowExW(WS_EX_NOPARENTNOTIFY | WS_EX_NOACTIVATE | WS_EX_TOPMOST, MAKEINTATOM(CW.Windows.Class), NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, CW.ProcessModule, NULL);
+
+	AddClipboardFormatListener(CW.Windows.Main);
 	CW.AnimatorEvent = CreateEventW(NULL, TRUE, FALSE, NULL);
 	CW.AnimatorThread = CreateThread(NULL, 1, CWWindowAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
 
 	CW.NotifyIcon.cbSize = sizeof(CW.NotifyIcon);
-	CW.NotifyIcon.hWnd = CW.WindowHandle;
+	CW.NotifyIcon.hWnd = CW.Windows.Main;
 	CW.NotifyIcon.uID = 1;
 	CW.NotifyIcon.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 	CW.NotifyIcon.uCallbackMessage = WM_SHLICON;
-	CW.NotifyIcon.hIcon = LoadIconW(CW.ProcessModule, MAKEINTRESOURCEW(IDI_ICON));
+	CW.NotifyIcon.hIcon = CW.UI.Icon;
 
 	#ifdef NDEBUG
 	lstrcpyW(CW.NotifyIcon.szTip, L"ClipWatch");
@@ -35,25 +35,29 @@ static __forceinline void CWInit(void) {
 	CW.Menu = CreatePopupMenu();
 	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING | MF_GRAYED, 0, L"ClipWatch");
 	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING | MF_SEPARATOR, 0, NULL);
-	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, TIM_SETTINGS, L"Settings");
-	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, TIM_ABOUT, L"About");
-	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, TIM_EXIT, L"Exit");
+	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, CW_TIM_CLEAR, L"Clear Clipboard");
+	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, CW_TIM_SETTINGS, L"Settings");
+	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, CW_TIM_ABOUT, L"About");
+	InsertMenuW(CW.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, CW_TIM_EXIT, L"Exit");
 
-	CW.Running = TRUE;
+	CW.Running = true;
 	return;
 }
 
 DECLSPEC_NORETURN
-__forceinline void CWQuit(void) {
-	CW.Running = FALSE;
+void CWQuit(void) {
+	CW.Running = false;
 	SetEvent(CW.AnimatorEvent);
 
-	RemoveClipboardFormatListener(CW.WindowHandle);
-	DestroyWindow(CW.WindowHandle);
-	UnregisterClassW(MAKEINTATOM(CW.WindowClass), CW.ProcessModule);
+	if(CW.Windows.About) DestroyWindow(CW.Windows.About);
+	if(CW.Windows.Settings) DestroyWindow(CW.Windows.Settings);
 
-	DeleteObject(CW.BackgroundColourBrush);
-	DeleteObject(CW.Font);
+	RemoveClipboardFormatListener(CW.Windows.Main);
+	DestroyWindow(CW.Windows.Main);
+	UnregisterClassW(MAKEINTATOM(CW.Windows.Class), CW.ProcessModule);
+
+	DeleteObject(CW.UI.BackgroundColourBrush);
+	DeleteObject(CW.UI.Font);
 	DestroyMenu(CW.Menu);
 	Shell_NotifyIconW(NIM_DELETE, &CW.NotifyIcon);
 

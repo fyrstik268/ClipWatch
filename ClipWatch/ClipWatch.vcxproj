@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\About.c" />
+    <ClCompile Include="Sources\Config.c" />
     <ClCompile Include="Sources\Init.c" />
     <ClCompile Include="Sources\Window.c" />
   </ItemGroup>
@@ -28,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="Headers\ClipWatch.h" />
     <ClInclude Include="Headers\Resources.h" />
+    <ClInclude Include="Headers\Types.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\icon.ico" />
@@ -196,8 +199,7 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <Profile>true</Profile>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalManifestDependencies>
-      </AdditionalManifestDependencies>
+      <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df'</AdditionalManifestDependencies>
       <HeapReserveSize>1048576</HeapReserveSize>
       <HeapCommitSize>4096</HeapCommitSize>
       <StackReserveSize>1048576</StackReserveSize>
@@ -218,7 +220,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -316,8 +318,7 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <Profile>true</Profile>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalManifestDependencies>
-      </AdditionalManifestDependencies>
+      <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df'</AdditionalManifestDependencies>
       <HeapReserveSize>1048576</HeapReserveSize>
       <HeapCommitSize>4096</HeapCommitSize>
       <StackReserveSize>1048576</StackReserveSize>
@@ -339,7 +340,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -440,8 +441,7 @@
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <SetChecksum>true</SetChecksum>
-      <AdditionalManifestDependencies>
-      </AdditionalManifestDependencies>
+      <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df'</AdditionalManifestDependencies>
       <HeapReserveSize>1048576</HeapReserveSize>
       <HeapCommitSize>4096</HeapCommitSize>
       <StackReserveSize>1048576</StackReserveSize>
@@ -462,7 +462,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -559,8 +559,7 @@
       </LinkStatus>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <SetChecksum>true</SetChecksum>
-      <AdditionalManifestDependencies>
-      </AdditionalManifestDependencies>
+      <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df'</AdditionalManifestDependencies>
       <HeapReserveSize>1048576</HeapReserveSize>
       <HeapCommitSize>4096</HeapCommitSize>
       <StackReserveSize>1048576</StackReserveSize>
@@ -581,7 +580,7 @@
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>

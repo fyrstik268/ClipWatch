@@ -21,6 +21,12 @@
     <ClCompile Include="Sources\Window.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\About.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Resources.rc">
@@ -32,6 +38,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\ClipWatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

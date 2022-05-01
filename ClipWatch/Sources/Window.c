@@ -1,13 +1,7 @@
 #include <ClipWatch.h>
 
-/* WM_CTLCOLORSTATIC
-wParam
-	Handle to the device context for the static control window.
-lParam
-	Handle to the static control. */
-
-static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
-	_Bool Painting = FALSE;
+static LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
+	bool Painting = false;
 	switch(Message) {
 	case WM_CLIPBOARDUPDATE:
 		SetEvent(CW.AnimatorEvent);
@@ -27,15 +21,33 @@ static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LPa
 
 		POINT CursorPos;
 		GetPhysicalCursorPos(&CursorPos);
-		SetForegroundWindow(CW.WindowHandle);
-		const BOOL Return = TrackPopupMenu(CW.Menu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_NONOTIFY | TPM_RETURNCMD | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION,
-										   CursorPos.x, CursorPos.y, 0, Window, NULL);
+		SetForegroundWindow(CW.Windows.Main);
+		switch(TrackPopupMenu(CW.Menu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_NONOTIFY | TPM_RETURNCMD | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION, CursorPos.x, CursorPos.y, 0, Window, NULL)) {
+		case CW_TIM_CLEAR:
+			OpenClipboard(Window);
+			EmptyClipboard();
+			CloseClipboard();
+			return 0;
 
-		if(Return) CWQuit();
-		return 0;
+		case CW_TIM_SETTINGS:
+			if(!CW.Windows.Settings) CW.Windows.Settings= CreateDialogParamW(CW.ProcessModule, MAKEINTRESOURCEW(IDD_SETTINGS), NULL, CWSettingsDialog, 0);
+			else SetForegroundWindow(CW.Windows.Settings);
+			return 0;
+
+		case CW_TIM_ABOUT:
+			if(!CW.Windows.About) CW.Windows.About= CreateDialogParamW(CW.ProcessModule, MAKEINTRESOURCEW(IDD_ABOUT), NULL, CWAboutDialog, 0);
+			else SetForegroundWindow(CW.Windows.About);
+			return 0;
+
+		case CW_TIM_EXIT:
+			CWQuit();
+
+		default:
+			return 0;
+		}
 
 	case WM_PAINT:
-		Painting = TRUE;
+		Painting = true;
 		PAINTSTRUCT PaintStruct;
 		WParam = (WPARAM)BeginPaint(Window, &PaintStruct);
 
@@ -48,7 +60,7 @@ static LRESULT CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LPa
 		HDC const DC = (HDC)WParam;
 		SetBkColor(DC, RGB(0x33, 0x33, 0x33));
 		SetTextColor(DC, RGB(0xFF, 0xFF, 0xFF));
-		SelectObject(DC, CW.Font);
+		SelectObject(DC, CW.UI.Font);
 		DrawTextW(DC, L"Clipboard Updated!", 18, &ClientRect, DT_CENTER | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 
 		if(Painting) EndPaint(Window, &PaintStruct);
@@ -68,37 +80,23 @@ __forceinline void CWCreateWindowClass(void) {
 		.hInstance = CW.ProcessModule,
 		.hIcon = NULL,
 		.hCursor = LoadCursorW(NULL, IDC_ARROW),
-		.hbrBackground = CW.BackgroundColourBrush,
+		.hbrBackground = CW.UI.BackgroundColourBrush,
 		.lpszMenuName = NULL,
 		.lpszClassName = L"ClipWatchWndClass"
 	};
-	CW.WindowClass = RegisterClassW(&WindowClass);
-	return;
-}
-
-__forceinline void CWCreateWindow(void) {
-	HMONITOR Monitor = MonitorFromPoint((POINT){0}, MONITOR_DEFAULTTOPRIMARY);
-	MONITORINFO MonitorInfo;
-	MonitorInfo.cbSize = sizeof(MONITORINFO);
-	GetMonitorInfoW(Monitor, &MonitorInfo);
-
-	const char Width = 113, Height = 28;
-	CW.WindowHandle = CreateWindowExW(WS_EX_NOPARENTNOTIFY | WS_EX_NOACTIVATE | WS_EX_TOPMOST, MAKEINTATOM(CW.WindowClass), NULL, WS_POPUP,
-									  (MonitorInfo.rcWork.right - MonitorInfo.rcWork.left) / 2 - (Width / 2),
-									  (MonitorInfo.rcWork.bottom - MonitorInfo.rcWork.top) - 50 - (Height / 2),
-									  Width, Height, NULL, NULL, CW.ProcessModule, NULL);
+	CW.Windows.Class = RegisterClassW(&WindowClass);
 	return;
 }
 
 #pragma warning(suppress: 4100)
-DWORD WINAPI CWWindowAnimator(void* Unused) {
-	while(TRUE) {
+dword WINAPI CWWindowAnimator(void* Unused) {
+	while(true) {
 		WaitForSingleObject(CW.AnimatorEvent, INFINITE);
 		if(!CW.Running) ExitThread(0);
 
-		AnimateWindow(CW.WindowHandle, 1250, AW_BLEND);
-		Sleep(500);
-		AnimateWindow(CW.WindowHandle, 1250, AW_BLEND | AW_HIDE);
+		AnimateWindow(CW.Windows.Main, CW.Config.FadeInDuration, AW_BLEND);
+		Sleep(CW.Config.MidFadeDelay);
+		AnimateWindow(CW.Windows.Main, CW.Config.FadeOutDuration, AW_BLEND | AW_HIDE);
 		ResetEvent(CW.AnimatorEvent);
 	}
 }
