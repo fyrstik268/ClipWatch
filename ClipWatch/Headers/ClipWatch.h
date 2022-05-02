@@ -67,9 +67,9 @@ DECLSPEC_NORETURN
 void CWQuit(void);
 
 /* About.c */
-INT_PTR CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam);
+intptr CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam);
 
 /* Config.c */
-INT_PTR CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam);
+intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam);
 void CWLoadConfig(void);
 void CWSaveConfig(void);

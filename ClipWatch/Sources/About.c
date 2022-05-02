@@ -1,7 +1,7 @@
 /* ClipWatch - 'About' Dialog Box */
 #include <ClipWatch.h>
 
-INT_PTR CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
+intptr CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
 	switch(Message) {
 	case WM_INITDIALOG:
 		SendMessageW(Dialog, WM_SETICON, ICON_BIG, (LPARAM)CW.UI.Icon);

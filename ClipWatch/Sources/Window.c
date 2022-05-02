@@ -1,5 +1,34 @@
 #include <ClipWatch.h>
 
+static __forceinline void CWPaintPopupWindow(HWND const restrict Window, HDC const restrict DC) {
+	RECT Rect;
+	DrawTextW(DC, L"Clipboard Updated!", 18, &Rect, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+	Rect.right += 10;
+	Rect.bottom += 16;
+
+	if(CW.Config.Flags & CW_CFG_POS_TO_CARET) {
+		POINT Position;
+		GetCaretPos(&Position);
+		ClientToScreen(GetActiveWindow(), &Position);
+		Position.x += 10;
+		Position.y += 10;
+
+		/* Monitor Bounds Checking */
+	}
+
+	/* Relative to Cursor */
+	/* Active Window's Monitor */
+	/* Primary Monitor */
+
+	SetWindowPos(Window, HWND_TOPMOST, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, SWP_HIDEWINDOW | SWP_NOACTIVATE | SWP_NOCOPYBITS);
+
+	SetBkColor(DC, CW.Config.BackgroundColour);
+	SetTextColor(DC, CW.Config.TextColour);
+	SelectObject(DC, CW.UI.Font);
+	DrawTextW(DC, L"Clipboard Updated!", 18, &Rect, DT_CENTER | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+	return;
+}
+
 static LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
 	bool Painting = false;
 	switch(Message) {
@@ -52,17 +81,7 @@ static LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, L
 		WParam = (WPARAM)BeginPaint(Window, &PaintStruct);
 
 	case WM_PRINTCLIENT:
-		RECT ClientRect;
-		GetClientRect(Window, &ClientRect);
-
-		/* Set window pos, get text size via DrawTextW() with DT_CALCRECT. */
-
-		HDC const DC = (HDC)WParam;
-		SetBkColor(DC, RGB(0x33, 0x33, 0x33));
-		SetTextColor(DC, RGB(0xFF, 0xFF, 0xFF));
-		SelectObject(DC, CW.UI.Font);
-		DrawTextW(DC, L"Clipboard Updated!", 18, &ClientRect, DT_CENTER | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
-
+		CWPaintPopupWindow(Window, (HDC)WParam);
 		if(Painting) EndPaint(Window, &PaintStruct);
 		return 0;
 

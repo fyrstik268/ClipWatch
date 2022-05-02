@@ -16,17 +16,26 @@ lParam
 - Flags (DWORD, see the CF_* enums)
 - Font (Byte array of LOGFONTW struct, *only* 92 bytes.) */
 
+HWND CW_PreviewRectControl, CW_PreviewTextControl;
+
 #pragma warning(suppress: 4100)
-INT_PTR CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
+intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
 	switch(Message) {
 	case WM_INITDIALOG:
 		SendMessageW(Dialog, WM_SETICON, ICON_BIG, (LPARAM)CW.UI.Icon);
 		SendMessageW(Dialog, WM_SETICON, ICON_SMALL, (LPARAM)CW.UI.Icon);
+
+		CW_PreviewRectControl = GetDlgItem(Dialog, IDC_BG_PREVIEW);
+		CW_PreviewTextControl = GetDlgItem(Dialog, IDC_TEXT_PREVIEW);
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		SetBkColor((HDC)WParam, CW.Config.BackgroundColour);
-		return TRUE;
+		if((HWND)LParam == CW_PreviewRectControl || (HWND)LParam == CW_PreviewTextControl) {
+			SetBkColor((HDC)WParam, CW.Config.BackgroundColour);
+			SetTextColor((HDC)WParam, CW.Config.TextColour);
+			return (intptr)CW.UI.BackgroundColourBrush;
+		}
+		return false;
 
 	case WM_COMMAND:
 		switch(WParam) {
@@ -53,37 +62,40 @@ INT_PTR CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPAR
 	}
 }
 
+static inline void CWLoadConfigElement(HKEY const restrict Key, wchar* const restrict ValueName, dword* const restrict Value, const dword Default) {
+	dword Size = sizeof(dword);
+	if(RegGetValueW(Key, NULL, ValueName, RRF_RT_DWORD, NULL, &Value, &Size)) *Value = Default;
+	return;
+}
+
 void CWLoadConfig(void) {
 	HKEY restrict Key;
 	RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\ClipWatch", 0, NULL, 0, KEY_QUERY_VALUE, NULL, &Key, NULL);
 
-	dword Size = sizeof(dword), CastingBuffer;
-	if(!RegGetValueW(Key, NULL, L"Fade-In Duration", RRF_RT_DWORD, NULL, &CastingBuffer, &Size)) CW.Config.FadeInDuration = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
-	else CW.Config.FadeInDuration = 1250;
+	dword CastingBuffer;
+	CWLoadConfigElement(Key, L"Fade-In Duration", &CastingBuffer, 1250);
+	CW.Config.FadeInDuration = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
+	CWLoadConfigElement(Key, L"Mid-Fade Delay", &CastingBuffer, 500);
+	CW.Config.MidFadeDelay = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
+	CWLoadConfigElement(Key, L"Fade-Out Duration", &CastingBuffer, 1250);
+	CW.Config.FadeOutDuration = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
 
-	Size = sizeof(dword);
-	if(!RegGetValueW(Key, NULL, L"Mid-Fade Delay", RRF_RT_DWORD, NULL, &CastingBuffer, &Size)) CW.Config.MidFadeDelay = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
-	else CW.Config.MidFadeDelay = 500;
+	CWLoadConfigElement(Key, L"Text Colour", &CW.Config.TextColour, RGB(0xFF, 0xFF, 0xFF));
+	CWLoadConfigElement(Key, L"Background Colour", &CW.Config.BackgroundColour, RGB(0x33, 0x33, 0x33));
 
-	Size = sizeof(dword);
-	if(!RegGetValueW(Key, NULL, L"Fade-Out Duration", RRF_RT_DWORD, NULL, &CastingBuffer, &Size)) CW.Config.FadeOutDuration = CastingBuffer > MAXWORD ? MAXWORD : (word)CastingBuffer;
-	else CW.Config.FadeOutDuration = 1250;
+	CWLoadConfigElement(Key, L"Flags", &CastingBuffer, CW_CFG_POS_TO_NEAREST);
+	CW.Config.Flags = (byte)CastingBuffer;
 
-	Size = sizeof(dword);
-	if(!RegGetValueW(Key, NULL, L"Text Colour", RRF_RT_DWORD, NULL, &CW.Config.TextColour, &Size)) CW.Config.TextColour = RGB(0xFF, 0xFF, 0xFF);
+	dword Size = sizeof(CW.Config.LogFont);
+	if(RegGetValueW(Key, NULL, L"Font", RRF_RT_REG_BINARY, NULL, &CW.Config.LogFont, &Size)) {
+		NONCLIENTMETRICSW Metrics;
+		Metrics.cbSize = sizeof(Metrics);
+		SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(Metrics), &Metrics, 0);
+		CW.Config.LogFont = Metrics.lfMessageFont;
+	}
 
-	Size = sizeof(dword);
-	if(!RegGetValueW(Key, NULL, L"Background Colour", RRF_RT_DWORD, NULL, &CW.Config.BackgroundColour, &Size)) CW.Config.BackgroundColour = RGB(0x33, 0x33, 0x33);
-
-	Size = sizeof(dword);
-	if(!RegGetValueW(Key, NULL, L"Flags", RRF_RT_DWORD, NULL, &CastingBuffer, &Size)) CW.Config.Flags = (byte)CastingBuffer;
-	else CW.Config.Flags = CW_CFG_POS_TO_NEAREST;
-	
-	NONCLIENTMETRICSW Metrics;
-	Metrics.cbSize = sizeof(Metrics);
-	SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(Metrics), &Metrics, 0);
-	CW.Config.LogFont = Metrics.lfMessageFont;
 	CW.UI.Font = CreateFontIndirectW(&CW.Config.LogFont);
+	CW.UI.BackgroundColourBrush = CreateSolidBrush(CW.Config.BackgroundColour);
 	return;
 }
 

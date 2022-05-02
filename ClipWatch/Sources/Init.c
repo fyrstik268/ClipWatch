@@ -8,9 +8,7 @@ static __forceinline void CWInit(void) {
 	CWLoadConfig();
 
 	CW.UI.Icon = LoadIconW(CW.ProcessModule, MAKEINTRESOURCEW(IDI_ICON));
-	CW.UI.BackgroundColourBrush = CreateSolidBrush(CW.Config.BackgroundColour);
 
-	CWCreateWindowClass();
 	CW.Windows.Main = CreateWindowExW(WS_EX_NOPARENTNOTIFY | WS_EX_NOACTIVATE | WS_EX_TOPMOST, MAKEINTATOM(CW.Windows.Class), NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, CW.ProcessModule, NULL);
 
 	AddClipboardFormatListener(CW.Windows.Main);
@@ -72,7 +70,7 @@ void CWMain(void) {
 	CWInit();
 
 	/* The window proc calls the shutdown. I originally had the shutting down in here,
-	but for some reason the WM_QUIT messages never made it in. */
+	but for some reason the WM_QUIT messages never made it in. Shutdown performed within CWWindowProc(). */
 	while(TRUE) {
 		MSG Message;
 		GetMessageW(&Message, NULL, 0, 0);
