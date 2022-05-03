@@ -6,21 +6,21 @@ intptr CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM L
 	case WM_INITDIALOG:
 		SendMessageW(Dialog, WM_SETICON, ICON_BIG, (LPARAM)CW.UI.Icon);
 		SendMessageW(Dialog, WM_SETICON, ICON_SMALL, (LPARAM)CW.UI.Icon);
-		return TRUE;
+		return true;
 
 	case WM_COMMAND:
-		if(WParam != IDOK) return TRUE;
+		if(WParam != IDOK) return true;
 
 	case WM_CLOSE:
 		EndDialog(Dialog, 0);
 		CW.Windows.About = NULL;
-		return TRUE;
+		return true;
 
 	case WM_NOTIFY:
 		if(((NMHDR*)LParam)->code == NM_CLICK && ((NMHDR*)LParam)->idFrom == IDC_URL) ShellExecuteW(NULL, L"open", L"https://github.com/PersonMedBrukernavn/ClipWatch", NULL, NULL, SW_SHOWNORMAL);
-		return TRUE;
+		return true;
 
 	default:
-		return FALSE;
+		return false;
 	}
 }

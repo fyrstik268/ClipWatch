@@ -1,8 +1,14 @@
 #include <ClipWatch.h>
 
-static __forceinline void CWPaintPopupWindow(HWND const restrict Window, HDC const restrict DC) {
-	RECT Rect;
-	DrawTextW(DC, L"Clipboard Updated!", 18, &Rect, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+static __forceinline void CWResizeWindow(HWND const restrict Window) {
+	RECT Rect = {0};
+
+	PAINTSTRUCT PaintStruct;
+	BeginPaint(Window, &PaintStruct);
+	SelectObject(PaintStruct.hdc, CW.UI.Font);
+	DrawTextW(PaintStruct.hdc, L"Clipboard Updated!", 18, &Rect, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+	EndPaint(Window, &PaintStruct);
+
 	Rect.right += 10;
 	Rect.bottom += 16;
 
@@ -10,8 +16,8 @@ static __forceinline void CWPaintPopupWindow(HWND const restrict Window, HDC con
 		POINT Position;
 		GetCaretPos(&Position);
 		ClientToScreen(GetActiveWindow(), &Position);
-		Position.x += 10;
-		Position.y += 10;
+		Rect.left = Position.x + 10;
+		Rect.top = Position.y + 10;
 
 		/* Monitor Bounds Checking */
 	}
@@ -21,11 +27,6 @@ static __forceinline void CWPaintPopupWindow(HWND const restrict Window, HDC con
 	/* Primary Monitor */
 
 	SetWindowPos(Window, HWND_TOPMOST, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, SWP_HIDEWINDOW | SWP_NOACTIVATE | SWP_NOCOPYBITS);
-
-	SetBkColor(DC, CW.Config.BackgroundColour);
-	SetTextColor(DC, CW.Config.TextColour);
-	SelectObject(DC, CW.UI.Font);
-	DrawTextW(DC, L"Clipboard Updated!", 18, &Rect, DT_CENTER | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 	return;
 }
 
@@ -33,6 +34,7 @@ static LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, L
 	bool Painting = false;
 	switch(Message) {
 	case WM_CLIPBOARDUPDATE:
+		CWResizeWindow(Window);
 		SetEvent(CW.AnimatorEvent);
 
 	case WM_CLOSE:
@@ -81,7 +83,14 @@ static LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, L
 		WParam = (WPARAM)BeginPaint(Window, &PaintStruct);
 
 	case WM_PRINTCLIENT:
-		CWPaintPopupWindow(Window, (HDC)WParam);
+		RECT ClientRect;
+		GetClientRect(Window, &ClientRect);
+
+		HDC const restrict DC = (HDC)WParam;
+		SetBkColor(DC, CW.Config.BackgroundColour);
+		SetTextColor(DC, CW.Config.TextColour);
+		SelectObject(DC, CW.UI.Font);
+		DrawTextW(DC, L"Clipboard Updated!", 18, &ClientRect, DT_CENTER | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 		if(Painting) EndPaint(Window, &PaintStruct);
 		return 0;
 

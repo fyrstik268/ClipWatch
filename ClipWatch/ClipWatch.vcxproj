@@ -220,7 +220,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -340,7 +340,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -462,7 +462,7 @@
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>
@@ -580,7 +580,7 @@
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
       <EntryPointSymbol>CWMain</EntryPointSymbol>
-      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
       <SupportUnloadOfDelayLoadedDLL>false</SupportUnloadOfDelayLoadedDLL>

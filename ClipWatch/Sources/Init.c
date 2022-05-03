@@ -9,7 +9,8 @@ static __forceinline void CWInit(void) {
 
 	CW.UI.Icon = LoadIconW(CW.ProcessModule, MAKEINTRESOURCEW(IDI_ICON));
 
-	CW.Windows.Main = CreateWindowExW(WS_EX_NOPARENTNOTIFY | WS_EX_NOACTIVATE | WS_EX_TOPMOST, MAKEINTATOM(CW.Windows.Class), NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, CW.ProcessModule, NULL);
+	CWCreateWindowClass();
+	CW.Windows.Main = CreateWindowExW(WS_EX_NOPARENTNOTIFY | WS_EX_NOACTIVATE | WS_EX_TOPMOST, MAKEINTATOM(CW.Windows.Class), NULL, WS_POPUP, 0, 0, 1, 1, NULL, NULL, CW.ProcessModule, NULL);
 
 	AddClipboardFormatListener(CW.Windows.Main);
 	CW.AnimatorEvent = CreateEventW(NULL, TRUE, FALSE, NULL);

@@ -25,7 +25,6 @@
 #define IDC_POSITION_ACTIVE_MONITOR     1020
 #define IDC_POSITION_PRIMARY_MONITOR    1021
 #define IDC_CLEAR_AND_EXIT              1022
-#define IDC_SYSLINK1                    1027
 #define IDC_URL                         1027
 
 // Next default values for new objects
