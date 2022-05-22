@@ -20,9 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\About.c" />
-    <ClCompile Include="Sources\Config.c" />
+    <ClCompile Include="Sources\Config Utils.c" />
+    <ClCompile Include="Sources\Config Dialog.c" />
     <ClCompile Include="Sources\Init.c" />
-    <ClCompile Include="Sources\Window.c" />
+    <ClCompile Include="Sources\Main Window.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Resources.rc" />
@@ -219,7 +220,7 @@
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <EntryPointSymbol>CWMain</EntryPointSymbol>
+      <EntryPointSymbol>CWMainEntrypoint</EntryPointSymbol>
       <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
@@ -339,7 +340,7 @@
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <EntryPointSymbol>CWMain</EntryPointSymbol>
+      <EntryPointSymbol>CWMainEntrypoint</EntryPointSymbol>
       <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
@@ -461,7 +462,7 @@
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <EntryPointSymbol>CWMain</EntryPointSymbol>
+      <EntryPointSymbol>CWMainEntrypoint</EntryPointSymbol>
       <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
@@ -579,7 +580,7 @@
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <CLRSupportLastError>Disabled</CLRSupportLastError>
       <CETCompat>true</CETCompat>
-      <EntryPointSymbol>CWMain</EntryPointSymbol>
+      <EntryPointSymbol>CWMainEntrypoint</EntryPointSymbol>
       <AdditionalDependencies>kernel32.lib;user32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ucrt.lib</AdditionalDependencies>
       <EnableUAC>true</EnableUAC>
       <TypeLibraryResourceID />
