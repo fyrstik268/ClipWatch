@@ -7,7 +7,7 @@ static void CWMonitorBoundsCheck(HMONITOR Monitor, RECT* WindowRect) {
 
 	if(WindowRect->left < MonitorInfo.rcMonitor.left) WindowRect->left = MonitorInfo.rcMonitor.left;
 	if(WindowRect->top < MonitorInfo.rcMonitor.top) WindowRect->top = MonitorInfo.rcMonitor.top;
-	if (WindowRect->left + WindowRect->right > MonitorInfo.rcMonitor.right) WindowRect->left = MonitorInfo.rcMonitor.right - WindowRect->right;
+	if(WindowRect->left + WindowRect->right > MonitorInfo.rcMonitor.right) WindowRect->left = MonitorInfo.rcMonitor.right - WindowRect->right;
 	if(WindowRect->top + WindowRect->bottom > MonitorInfo.rcMonitor.bottom) WindowRect->top = MonitorInfo.rcMonitor.bottom - WindowRect->bottom;
 
 	return;
@@ -89,6 +89,7 @@ LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM L
 	switch(Message) {
 	case WM_CLIPBOARDUPDATE:
 		if(!CW.PresentPopup) CW.PresentPopup = CreateThread(NULL, 1, CWPopupAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
+		return 0;
 
 	case WM_CLOSE:
 		PostQuitMessage(0);
