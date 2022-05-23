@@ -5,22 +5,10 @@ static void CWMonitorBoundsCheck(HMONITOR Monitor, RECT* WindowRect) {
 	MonitorInfo.cbSize = sizeof(MonitorInfo);
 	GetMonitorInfoW(Monitor, &MonitorInfo);
 
-	if(WindowRect->left < MonitorInfo.rcMonitor.left) {
-		WindowRect->right += MonitorInfo.rcMonitor.left - WindowRect->left;
-		WindowRect->left = MonitorInfo.rcMonitor.left;
-	}
-	if(WindowRect->right > MonitorInfo.rcMonitor.right) {
-		WindowRect->left -= WindowRect->right - MonitorInfo.rcMonitor.right;
-		WindowRect->right = MonitorInfo.rcMonitor.right;
-	}
-	if(WindowRect->top < MonitorInfo.rcMonitor.top) {
-		WindowRect->bottom += MonitorInfo.rcMonitor.top - WindowRect->top;
-		WindowRect->top = MonitorInfo.rcMonitor.top;
-	}
-	if(WindowRect->bottom > MonitorInfo.rcMonitor.bottom) {
-		WindowRect->top -= WindowRect->bottom - MonitorInfo.rcMonitor.bottom;
-		WindowRect->bottom = MonitorInfo.rcMonitor.bottom;
-	}
+	if(WindowRect->left < MonitorInfo.rcMonitor.left) WindowRect->left = MonitorInfo.rcMonitor.left;
+	if(WindowRect->top < MonitorInfo.rcMonitor.top) WindowRect->top = MonitorInfo.rcMonitor.top;
+	if (WindowRect->left + WindowRect->right > MonitorInfo.rcMonitor.right) WindowRect->left = MonitorInfo.rcMonitor.right - WindowRect->right;
+	if(WindowRect->top + WindowRect->bottom > MonitorInfo.rcMonitor.bottom) WindowRect->top = MonitorInfo.rcMonitor.bottom - WindowRect->bottom;
 
 	return;
 }
@@ -36,16 +24,6 @@ static FORCEINLINE void CWPositionPopup(void) {
 	Rect.right += 10;
 	Rect.bottom += 16;
 
-	if(CW.Config.Flags & CW_CFG_POS_TO_CARET) {
-		POINT Position;
-		if(!GetCaretPos(&Position)) goto FailedGetCaretPos;
-		ClientToScreen(GetActiveWindow(), &Position);
-		Rect.left = Position.x + 10;
-		Rect.top = Position.y + 10;
-		CWMonitorBoundsCheck(MonitorFromPoint(Position, MONITOR_DEFAULTTONEAREST), &Rect);
-	}
-
-FailedGetCaretPos:
 	if(CW.Config.Flags & CW_CFG_POS_TO_CURSOR) {
 		POINT Position;
 		GetPhysicalCursorPos(&Position);
@@ -54,13 +32,13 @@ FailedGetCaretPos:
 		CWMonitorBoundsCheck(MonitorFromPoint(Position, MONITOR_DEFAULTTONEAREST), &Rect);
 	}
 	else if(CW.Config.Flags & CW_CFG_POS_TO_NEAREST) {
-		HWND ActiveWindow = GetActiveWindow();
+		HWND ActiveWindow = GetForegroundWindow();
 		HMONITOR Monitor = MonitorFromWindow(ActiveWindow, MONITOR_DEFAULTTONEAREST);
 		MONITORINFO MonitorInfo;
 		MonitorInfo.cbSize = sizeof(MonitorInfo);
 		GetMonitorInfoW(Monitor, &MonitorInfo);
 
-		Rect.left = (MonitorInfo.rcWork.right / 2) - (Rect.right / 2);
+		Rect.left = ((MonitorInfo.rcWork.right - MonitorInfo.rcWork.left) / 2) - (Rect.right / 2) + MonitorInfo.rcWork.left;
 		Rect.top = MonitorInfo.rcWork.bottom - 35 - Rect.bottom;
 	}
 	else if(CW.Config.Flags & CW_CFG_POS_TO_PRIMARY) {
@@ -69,7 +47,7 @@ FailedGetCaretPos:
 		MonitorInfo.cbSize = sizeof(MonitorInfo);
 		GetMonitorInfoW(Monitor, &MonitorInfo);
 
-		Rect.left = (MonitorInfo.rcWork.right / 2) - (Rect.right / 2);
+		Rect.left = ((MonitorInfo.rcWork.right - MonitorInfo.rcWork.left) / 2) - (Rect.right / 2) + MonitorInfo.rcWork.left;
 		Rect.top = MonitorInfo.rcWork.bottom - 35 - Rect.bottom;
 	}
 
@@ -80,27 +58,28 @@ FailedGetCaretPos:
 /* Popup animator thread. Also fixes positioning. */
 #pragma warning(suppress: 4100)
 static dword WINAPI CWPopupAnimator(void* Unused) {
+	if(CW.UI.UpdateBGBrush) {
+		SetClassLongPtrW(CW.Windows.Main, GCLP_HBRBACKGROUND, (intptr)CW.UI.UpdateBGBrush);
+		DeleteObject(CW.UI.BackgroundColourBrush);
+		CW.UI.BackgroundColourBrush = CW.UI.UpdateBGBrush;
+		CW.UI.UpdateBGBrush = NULL;
+	}
+	if(CW.UI.UpdateFont) {
+		HFONT const OldFont = CW.UI.Font;
+		CW.UI.Font = CW.UI.UpdateFont;
+		DeleteObject(OldFont);
+		CW.UI.UpdateFont = NULL;
+	}
+
 	CWPositionPopup();
 	AnimateWindow(CW.Windows.Main, CW.Config.FadeInDuration, AW_BLEND);
 	Sleep(CW.Config.MidFadeDelay);
 	AnimateWindow(CW.Windows.Main, CW.Config.FadeOutDuration, AW_BLEND | AW_HIDE);
 
-	if(CW.UI.UpdateBGBrush) {
-		DeleteObject(CW.UI.BackgroundColourBrush);
-		CW.UI.BackgroundColourBrush = CW.UI.UpdateBGBrush;
-		CW.UI.UpdateBGBrush = NULL;
-		SetClassLongPtrW(CW.Windows.Main, GCLP_HBRBACKGROUND, (intptr)CW.UI.BackgroundColourBrush);
-	}
-	if(CW.UI.UpdateFont) {
-		DeleteObject(CW.UI.Font);
-		CW.UI.Font = CW.UI.UpdateFont;
-		CW.UI.UpdateFont = NULL;
-	}
 	if(CW.Config.Flags & CW_CFG_RESET_TEXT) {
 		CW.Config.Flags &= ~CW_CFG_RESET_TEXT;
 		wcscpy_s(CW.Config.Text, ARRAYSIZE(CW.Config.Text), L"Clipboard Updated!");
 	}
-
 	ExitThread(0);
 }
 

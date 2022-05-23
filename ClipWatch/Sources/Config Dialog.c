@@ -56,10 +56,10 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 			SendMessageW(Dialog, WM_COMMAND, MAKEWPARAM(CW_IDC_TOGGLE_VIEWS, 0), 0);
 		}
 
-		if(CW.Config.Flags & CW_CFG_POS_TO_CARET) CheckDlgButton(Dialog, CW_IDC_POSITION_CARET, BST_CHECKED);
-		if(CW.Config.Flags & CW_CFG_POS_TO_CURSOR) CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, CW_IDC_POSITION_CURSOR);
-		else if(CW.Config.Flags & CW_CFG_POS_TO_NEAREST) CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, CW_IDC_POSITION_ACTIVE_MONITOR);
-		else if(CW.Config.Flags & CW_CFG_POS_TO_PRIMARY) CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, CW_IDC_POSITION_PRIMARY_MONITOR);
+		int RadioButton = CW_IDC_POSITION_CURSOR;
+		if(CW.Config.Flags & CW_CFG_POS_TO_NEAREST) RadioButton++;
+		else if(CW.Config.Flags & CW_CFG_POS_TO_PRIMARY) RadioButton++;
+		CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, CW_IDC_POSITION_CURSOR);
 
 		return true;
 		#pragma endregion
@@ -103,7 +103,7 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 
 		case CW_IDC_EDIT_TEXT_COLOUR:
 		case CW_IDC_EDIT_BG_COLOUR:
-			#pragma region EditTextColoursRestrictInput
+			#pragma region EditTextColours
 			if(HIWORD(WParam) != EN_UPDATE) return false;
 			wchar TextColour[7];
 			GetDlgItemTextW(Dialog, LOWORD(WParam), TextColour, 7);
@@ -154,6 +154,13 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 			if(HIWORD(WParam) != EN_UPDATE) return false;
 			dword Value = GetDlgItemInt(Dialog, LOWORD(WParam), NULL, false);
 			if(Value > MAXWORD) SetDlgItemInt(Dialog, LOWORD(WParam), MAXWORD, false);
+			else if(Value == 0) {
+				wchar LengthBuffer[2];
+				if(GetDlgItemTextW(Dialog, LOWORD(WParam), LengthBuffer, 2)) {
+					SetDlgItemInt(Dialog, LOWORD(WParam), 1, false);
+					SendDlgItemMessageW(Dialog, LOWORD(WParam), EM_SETSEL, 1, 1);
+				}
+			}
 			return true;
 			#pragma endregion
 
@@ -198,6 +205,7 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 			#pragma region ClearConfigAndExit
 			RegDeleteKeyExW(HKEY_CURRENT_USER, L"Software\\ClipWatch", 0, 0);
 			PostQuitMessage(0);
+			DeleteObject(CW_PreviewBackgroundBrush);
 			DestroyWindow(Dialog);
 			CW.Windows.Settings = NULL;
 			return true;
@@ -213,6 +221,7 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 		#pragma region CloseDialog
 		SendMessageW(Dialog, WM_APPLY_CONFIG, 0, 0);
 		CWSaveConfig();
+		DeleteObject(CW_PreviewBackgroundBrush);
 		DestroyWindow(Dialog);
 		CW.Windows.Settings = NULL;
 		return true;
@@ -223,7 +232,7 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 		CW.Config.TextColour = CW_PreviewTextColour;
 		CW.Config.BackgroundColour = CW_PreviewBackgroundColour;
 		if(CW.UI.UpdateBGBrush) DeleteObject(CW.UI.UpdateBGBrush);
-		CW.UI.UpdateBGBrush = CW_PreviewBackgroundBrush; /* Recycling is important! */
+		CW.UI.UpdateBGBrush = CreateSolidBrush(CW_PreviewBackgroundColour);
 
 		if(CW.Config.Flags & CW_CFG_ADVANCED_TIMING) {
 			CW.Config.FadeInDuration = (word)GetDlgItemInt(Dialog, CW_IDC_EDIT_FADEIN, NULL, false);
@@ -239,7 +248,6 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 		}
 
 		CW.Config.Flags &= CW_CFG_ADVANCED_TIMING;
-		CW.Config.Flags |= IsDlgButtonChecked(Dialog, CW_IDC_POSITION_CARET) == BST_CHECKED ? CW_CFG_POS_TO_CARET : 0;
 		CW.Config.Flags |= IsDlgButtonChecked(Dialog, CW_IDC_POSITION_CURSOR) == BST_CHECKED ? CW_CFG_POS_TO_CURSOR : 0;
 		CW.Config.Flags |= IsDlgButtonChecked(Dialog, CW_IDC_POSITION_ACTIVE_MONITOR) == BST_CHECKED ? CW_CFG_POS_TO_NEAREST : 0;
 		CW.Config.Flags |= IsDlgButtonChecked(Dialog, CW_IDC_POSITION_PRIMARY_MONITOR) == BST_CHECKED ? CW_CFG_POS_TO_PRIMARY : 0;

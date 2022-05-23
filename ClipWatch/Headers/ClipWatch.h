@@ -4,7 +4,7 @@
 #define _WIN32_WINNT 0x0600
 #include <Windows.h>
 #include <CommCtrl.h>
-#include <tchar.h>
+#include <tchar.h> /* _wcsspnp() is used once in the config dialog. */
 #include <Resources.h>
 #include <Types.h>
 
@@ -20,11 +20,10 @@ enum {
 /* Config Flags*/
 enum {
 	CW_CFG_ADVANCED_TIMING = BIT(0),
-	CW_CFG_POS_TO_CARET = BIT(1),
-	CW_CFG_POS_TO_CURSOR = BIT(2),
-	CW_CFG_POS_TO_NEAREST = BIT(3),
-	CW_CFG_POS_TO_PRIMARY = BIT(4),
-	CW_CFG_RESET_TEXT = BIT(5)
+	CW_CFG_POS_TO_CURSOR = BIT(1),
+	CW_CFG_POS_TO_NEAREST = BIT(2),
+	CW_CFG_POS_TO_PRIMARY = BIT(3),
+	CW_CFG_RESET_TEXT = BIT(4)
 };
 
 /* Tray Icon Menu IDs */

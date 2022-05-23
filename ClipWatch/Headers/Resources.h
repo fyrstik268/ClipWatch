@@ -13,14 +13,12 @@
 #define CW_IDC_TOGGLE_VIEWS             1007
 #define CW_IDC_FADEIN_DURATION          1008
 #define CW_IDC_FADEOUT_DURATION         1009
-#define CW_IDC_FADE_DURATION            1010
 #define CW_IDC_FADEDELAY_DURATION       1010
 #define CW_IDC_EDIT_FADEIN              1011
 #define CW_IDC_EDIT_FADEOUT             1012
 #define CW_IDC_EDIT_FADEDELAY           1013
 #define CW_IDC_TRIGGER_PREVIEW          1014
 #define CW_IDC_CHOOSE_FONT              1015
-#define CW_IDC_POSITION_CARET           1018
 #define CW_IDC_POSITION_CURSOR          1019
 #define CW_IDC_POSITION_ACTIVE_MONITOR  1020
 #define CW_IDC_POSITION_PRIMARY_MONITOR 1021
@@ -32,9 +30,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1031
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
