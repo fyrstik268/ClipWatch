@@ -4,8 +4,6 @@ No longer will you paste the wrong thing when Ctrl-C doesn't work!
 
 ![demo](https://user-images.githubusercontent.com/91881038/165717728-a9b45b5f-2398-410a-b2a0-bae5ace16785.gif)
 
-![Notepad_Wmuylc0UJO](https://user-images.githubusercontent.com/91881038/169825875-4dfb351c-7321-4439-add4-a444c5ec2baf.gif)
-
 ## Usage
 It just works when you run the executeable.\
 To quit the program, you can do so by clicking on the tray icon, or through task manager.
