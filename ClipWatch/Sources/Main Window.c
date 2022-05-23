@@ -91,6 +91,7 @@ LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM L
 		if(!CW.PresentPopup) CW.PresentPopup = CreateThread(NULL, 1, CWPopupAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
 
 	case WM_CLOSE:
+		PostQuitMessage(0);
 		return 0;
 
 	case WM_SHLICON:

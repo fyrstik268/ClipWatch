@@ -10,6 +10,7 @@ void CWLoadConfig(void) {
 		CW.Config.LogicalFontData = NonClientMetrics.lfMessageFont;
 		CW.UI.Font = CreateFontIndirectW(&NonClientMetrics.lfMessageFont);
 		CW.UI.BackgroundColourBrush = CreateSolidBrush(CW.Config.BackgroundColour);
+		wcscpy_s(CW.Config.Text, 33, L"Clipboard Updated!");
 		return;
 	}
 

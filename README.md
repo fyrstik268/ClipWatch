@@ -2,14 +2,16 @@
 A small program that will display a notification when the clipboard gets updated.\
 No longer will you paste the wrong thing when Ctrl-C doesn't work!
 
-![demo](https://user-images.githubusercontent.com/91881038/165717728-a9b45b5f-2398-410a-b2a0-bae5ace16785.gif)
+![Notepad_Wmuylc0UJO](https://user-images.githubusercontent.com/91881038/169825875-4dfb351c-7321-4439-add4-a444c5ec2baf.gif)
 
 ## Usage
-There's no configuration required, just start the execureable and it will run in the background.\
-By clicling on the icon that appears in the system tray, you can change how the program works, or quit the program.
+Simply just run the .exe file like any other.
+
+Click on the tray icon to shut down the program, or to change the settings.\
+In the settings menu you can change the colours, the font and how long the popup is displayed.
 
 To make the program automatically start when you log in, simply put the executeable (or create a shortcut) in `%appdata%\Microsoft\Windows\Start Menu\Programs\Startup`
 
 ## Requirements
 - Windows Vista, or newer (In theory, haven't tested it)
-- 1MB RAM
+- 2MB memory to spare.
