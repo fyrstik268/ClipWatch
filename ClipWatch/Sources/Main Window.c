@@ -80,6 +80,8 @@ static dword WINAPI CWPopupAnimator(void* Unused) {
 		CW.Config.Flags &= ~CW_CFG_RESET_TEXT;
 		wcscpy_s(CW.Config.Text, ARRAYSIZE(CW.Config.Text), L"Clipboard Updated!");
 	}
+	CloseHandle(CW.PresentPopup);
+	CW.PresentPopup = NULL;
 	ExitThread(0);
 }
 

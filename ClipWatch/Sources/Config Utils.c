@@ -9,6 +9,7 @@ void CWLoadConfig(void) {
 		SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(NonClientMetrics), &NonClientMetrics, 0);
 		CW.Config.LogicalFontData = NonClientMetrics.lfMessageFont;
 		CW.UI.Font = CreateFontIndirectW(&NonClientMetrics.lfMessageFont);
+		CW.UI.BackgroundColourBrush = CreateSolidBrush(CW.Config.BackgroundColour);
 		return;
 	}
 
@@ -30,7 +31,10 @@ void CWLoadConfig(void) {
 	Size = 33 * sizeof(wchar);
 	if(RegGetValueW(Key, NULL, L"Text", RRF_RT_REG_SZ, NULL, CW.Config.Text, &Size) != ERROR_SUCCESS) wcscpy_s(CW.Config.Text, 33, L"Clipboard Updated!");
 	Size = 92;
-	if(RegGetValueW(Key, NULL, L"Logical Font Data", RRF_RT_REG_BINARY, NULL, &CW.Config.LogicalFontData, &Size) != ERROR_SUCCESS) goto FailedReadingFontData;
+	if(RegGetValueW(Key, NULL, L"Logical Font Data", RRF_RT_REG_BINARY, NULL, &CW.Config.LogicalFontData, &Size) != ERROR_SUCCESS) {
+		RegCloseKey(Key);
+		goto FailedReadingFontData;
+	}
 
 	RegCloseKey(Key);
 	CW.UI.Font = CreateFontIndirectW(&CW.Config.LogicalFontData);

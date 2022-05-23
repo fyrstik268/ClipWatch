@@ -6,7 +6,7 @@ struct CW CW = {
 	.Config.MidFadeDelay = 500,
 	.Config.FadeOutDuration = 1250,
 	.Config.TextColour = RGB(0xFF, 0xFF, 0xFF),
-	.Config.BackgroundColour = RGB(0x33, 0x33, 0x33),
+	.Config.BackgroundColour = RGB(0x55, 0x55, 0x55),
 	.Config.Flags = CW_CFG_POS_TO_NEAREST
 	/* Default text set in CWLoadConfig(). Default font aquired through SystemParametersInfoW() -> NONCLIENTMETRICSW.lfMessageFont in CWLoadConfig(). */
 };
@@ -26,7 +26,7 @@ DECLSPEC_NORETURN void CWMainEntrypoint(void) {
 		.hInstance = CW.ProcessModule,
 		.hIcon = NULL,
 		.hCursor = LoadCursorW(NULL, IDC_ARROW),
-		.hbrBackground = NULL,
+		.hbrBackground = CW.UI.BackgroundColourBrush,
 		.lpszMenuName = NULL,
 		.lpszClassName = L"ClipWatchWndClass"
 	};

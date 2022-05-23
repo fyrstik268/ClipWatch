@@ -59,7 +59,7 @@ intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARA
 		int RadioButton = CW_IDC_POSITION_CURSOR;
 		if(CW.Config.Flags & CW_CFG_POS_TO_NEAREST) RadioButton++;
 		else if(CW.Config.Flags & CW_CFG_POS_TO_PRIMARY) RadioButton++;
-		CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, CW_IDC_POSITION_CURSOR);
+		CheckRadioButton(Dialog, CW_IDC_POSITION_CURSOR, CW_IDC_POSITION_PRIMARY_MONITOR, RadioButton);
 
 		return true;
 		#pragma endregion
