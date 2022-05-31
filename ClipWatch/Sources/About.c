@@ -2,8 +2,50 @@
 #include <ClipWatch.h>
 
 static byte CW_Counter;
+static const wchar* CW_LicenseText = L"MIT License\r\n\
+\r\n\
+Copyright(c) 2022 Tom Arnesen\r\n\
+\r\n\
+Permission is hereby granted, free of charge, to any person obtaining a copy\r\n\
+of this softwareand associated documentation files(the \"Software\"), to deal\r\n\
+in the Software without restriction, including without limitation the rights\r\n\
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell\r\n\
+copies of the Software, and to permit persons to whom the Software is\r\n\
+furnished to do so, subject to the following conditions : \r\n\
+\r\n\
+The above copyright noticeand this permission notice shall be included in all\r\n\
+copies or substantial portions of the Software.\r\n\
+\r\n\
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\n\
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, \r\n\
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE\r\n\
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\n\
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, \r\n\
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\n\
+SOFTWARE.";
 
-intptr CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
+#pragma warning(suppress: 4100)
+intptr CALLBACK CWLicenseDialog(HWND Dialog, uint Message, WPARAM WParam, LPARAM LParam) {
+	switch(Message) {
+	case WM_INITDIALOG:
+		SetDlgItemTextW(Dialog, CW_IDC_LICENSE, CW_LicenseText);
+		SendMessageW(Dialog, WM_SETICON, ICON_BIG, (LPARAM)CW.UI.Icon);
+		SendMessageW(Dialog, WM_SETICON, ICON_SMALL, (LPARAM)CW.UI.Icon);
+		return true;
+
+	case WM_COMMAND:
+		if(LOWORD(WParam) != IDCLOSE) return true;
+
+	case WM_CLOSE:
+		EndDialog(Dialog, 0);
+		return true;
+
+	default:
+		return false;
+	}
+}
+
+intptr CALLBACK CWAboutDialog(HWND Dialog, uint Message, WPARAM WParam, LPARAM LParam) {
 	switch(Message) {
 	case WM_INITDIALOG:
 		SendMessageW(Dialog, WM_SETICON, ICON_BIG, (LPARAM)CW.UI.Icon);
@@ -34,7 +76,15 @@ intptr CALLBACK CWAboutDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM L
 		return false;
 
 	case WM_COMMAND:
-		if(LOWORD(WParam) != IDOK) return true;
+		switch(LOWORD(WParam)) {
+		case CW_IDC_LICENSE:
+			DialogBoxParamW(CW.ProcessModule, MAKEINTRESOURCEW(CW_IDD_LICENSE), Dialog, CWLicenseDialog, 0);
+
+		default:
+			return true;
+
+		case IDOK:;
+		}
 
 	case WM_CLOSE:
 		CW_Counter = 0;

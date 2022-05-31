@@ -85,7 +85,7 @@ static dword WINAPI CWPopupAnimator(void* Unused) {
 	ExitThread(0);
 }
 
-LRESULT CALLBACK CWWindowProc(HWND Window, UINT Message, WPARAM WParam, LPARAM LParam) {
+LRESULT CALLBACK CWWindowProc(HWND Window, uint Message, WPARAM WParam, LPARAM LParam) {
 	switch(Message) {
 	case WM_CLIPBOARDUPDATE:
 		if(!CW.PresentPopup) CW.PresentPopup = CreateThread(NULL, 1, CWPopupAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);

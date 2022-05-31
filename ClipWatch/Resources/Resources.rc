@@ -25,8 +25,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,0
- PRODUCTVERSION 1,1,0,0
+ FILEVERSION 1,1,0,1
+ PRODUCTVERSION 1,1,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -42,12 +42,12 @@ BEGIN
         BLOCK "000904b0"
         BEGIN
             VALUE "FileDescription", "ClipWatch - Clipboard Update Alerter"
-            VALUE "FileVersion", "1.1.0.0"
+            VALUE "FileVersion", "1.1.0.1"
             VALUE "InternalName", "ClipWatch"
             VALUE "LegalCopyright", "© 2022 Tom Arnesen"
             VALUE "OriginalFilename", "ClipWatch.exe"
             VALUE "ProductName", "ClipWatch"
-            VALUE "ProductVersion", "1.1.0.0"
+            VALUE "ProductVersion", "1.1.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -89,11 +89,12 @@ CAPTION "About ClipWatch"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            CW_IDI_ICON,CW_IDC_ICON,6,18,20,20
-    CONTROL         "ClipWatch v1.1 - Clipboard Update Alerter\nCopyright © 2022 Tom Arnesen",IDC_STATIC,
+    CONTROL         "ClipWatch v1.1a - Clipboard Update Alerter\nCopyright © 2022 Tom Arnesen",IDC_STATIC,
                     "Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,36,12,168,18
     CONTROL         "<a>https://github.com/PersonMedBrukernavn/ClipWatch</a>",CW_IDC_URL,
                     "SysLink",WS_TABSTOP,38,30,174,12
-    DEFPUSHBUTTON   "Close",IDOK,83,48,50,14
+    PUSHBUTTON      "License",CW_IDC_LICENSE,57,50,50,14
+    DEFPUSHBUTTON   "Close",IDOK,112,50,50,14
 END
 
 CW_IDD_SETTINGS DIALOGEX 0, 0, 266, 148
@@ -130,6 +131,16 @@ BEGIN
     PUSHBUTTON      "Close",IDCLOSE,209,127,50,14
 END
 
+CW_IDD_LICENSE DIALOGEX 0, 0, 310, 175
+STYLE DS_SETFONT | DS_MODALFRAME | DS_NOIDLEMSG | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_OVERLAPPEDWINDOW | WS_EX_NOPARENTNOTIFY
+CAPTION "ClipWatch License"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDCLOSE,253,154,50,14
+    EDITTEXT        CW_IDC_LICENSE,7,7,296,143,ES_MULTILINE | ES_AUTOHSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -154,6 +165,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 141
     END
+
+    CW_IDD_LICENSE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 168
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -169,6 +188,11 @@ BEGIN
 END
 
 CW_IDD_ABOUT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+CW_IDD_LICENSE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

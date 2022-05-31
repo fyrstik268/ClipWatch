@@ -1,7 +1,7 @@
 /* ClipWatch - Configuration dialog box and registry code */
 #include <ClipWatch.h>
 
-static COLORREF CWGetColourFromEditBox(HWND Dialog, UINT EditBoxID) {
+static COLORREF CWGetColourFromEditBox(HWND Dialog, uint EditBoxID) {
 	wchar Buffer[7];
 	GetDlgItemTextW(Dialog, EditBoxID, Buffer, 7);
 	if(wcslen(Buffer) != 6) return MAXDWORD;
@@ -18,7 +18,7 @@ static COLORREF CWGetColourFromEditBox(HWND Dialog, UINT EditBoxID) {
 	return RGB(R, G, B);
 }
 
-static void CWSetColourToEditBox(HWND Dialog, UINT EditBoxID, COLORREF Colour) {
+static void CWSetColourToEditBox(HWND Dialog, uint EditBoxID, COLORREF Colour) {
 	wchar Buffer[7];
 	wsprintfW(Buffer, L"%.2X%.2X%.2X", GetRValue(Colour), GetGValue(Colour), GetBValue(Colour));
 	SetDlgItemTextW(Dialog, EditBoxID, Buffer);
@@ -32,7 +32,7 @@ static HBRUSH CW_PreviewBackgroundBrush;
 
 static COLORREF CW_DefaultColours[16];
 
-intptr CALLBACK CWSettingsDialog(HWND Dialog, UINT Message, WPARAM WParam, LPARAM LParam) {
+intptr CALLBACK CWSettingsDialog(HWND Dialog, uint Message, WPARAM WParam, LPARAM LParam) {
 	switch(Message) {
 	case WM_INITDIALOG:
 		#pragma region DialogInit

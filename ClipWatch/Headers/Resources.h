@@ -5,6 +5,7 @@
 #define CW_IDI_ICON                     101
 #define CW_IDD_ABOUT                    102
 #define CW_IDD_SETTINGS                 103
+#define CW_IDD_LICENSE                  108
 #define CW_IDC_EDIT_TEXT_COLOUR         1001
 #define CW_IDC_EDIT_BG_COLOUR           1002
 #define CW_IDC_PICK_TEXT_COLOUR         1003
@@ -25,14 +26,16 @@
 #define CW_IDC_CLEAR_AND_EXIT           1022
 #define CW_IDC_URL                      1027
 #define CW_IDC_ICON                     1028
+#define CW_IDC_LICENSE_BOX              1031
+#define CW_IDC_LICENSE                  1032
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1031
+#define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
