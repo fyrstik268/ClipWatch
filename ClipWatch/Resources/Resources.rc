@@ -25,8 +25,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,1
- PRODUCTVERSION 1,1,0,1
+ FILEVERSION 1,1,0,2
+ PRODUCTVERSION 1,1,0,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -42,12 +42,12 @@ BEGIN
         BLOCK "000904b0"
         BEGIN
             VALUE "FileDescription", "ClipWatch - Clipboard Update Alerter"
-            VALUE "FileVersion", "1.1.0.1"
+            VALUE "FileVersion", "1.1.0.2"
             VALUE "InternalName", "ClipWatch"
             VALUE "LegalCopyright", "© 2022 Tom Arnesen"
             VALUE "OriginalFilename", "ClipWatch.exe"
             VALUE "ProductName", "ClipWatch"
-            VALUE "ProductVersion", "1.1.0.1"
+            VALUE "ProductVersion", "1.1.0.2"
         END
     END
     BLOCK "VarFileInfo"
@@ -88,13 +88,13 @@ EXSTYLE WS_EX_NOPARENTNOTIFY
 CAPTION "About ClipWatch"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
+    PUSHBUTTON      "Close",IDOK,112,50,50,14
     ICON            CW_IDI_ICON,CW_IDC_ICON,6,18,20,20
-    CONTROL         "ClipWatch v1.1a - Clipboard Update Alerter\nCopyright © 2022 Tom Arnesen",IDC_STATIC,
+    CONTROL         "ClipWatch v1.1b - Clipboard Update Alerter\nCopyright © 2022 Tom Arnesen",IDC_STATIC,
                     "Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,36,12,168,18
     CONTROL         "<a>https://github.com/PersonMedBrukernavn/ClipWatch</a>",CW_IDC_URL,
                     "SysLink",WS_TABSTOP,38,30,174,12
     PUSHBUTTON      "License",CW_IDC_LICENSE,57,50,50,14
-    DEFPUSHBUTTON   "Close",IDOK,112,50,50,14
 END
 
 CW_IDD_SETTINGS DIALOGEX 0, 0, 266, 148
@@ -128,17 +128,17 @@ BEGIN
     PUSHBUTTON      "Clear settings and Exit",CW_IDC_CLEAR_AND_EXIT,6,127,84,14
     PUSHBUTTON      "Select Font",CW_IDC_CHOOSE_FONT,102,127,50,14
     PUSHBUTTON      "Show popup",CW_IDC_TRIGGER_PREVIEW,156,127,50,14
-    PUSHBUTTON      "Close",IDCLOSE,209,127,50,14
+    DEFPUSHBUTTON   "Close",IDCLOSE,209,127,50,14
 END
 
-CW_IDD_LICENSE DIALOGEX 0, 0, 310, 175
+CW_IDD_LICENSE DIALOGEX 0, 0, 330, 199
 STYLE DS_SETFONT | DS_MODALFRAME | DS_NOIDLEMSG | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_OVERLAPPEDWINDOW | WS_EX_NOPARENTNOTIFY
 CAPTION "ClipWatch License"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "Close",IDCLOSE,253,154,50,14
-    EDITTEXT        CW_IDC_LICENSE,7,7,296,143,ES_MULTILINE | ES_AUTOHSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL
+    DEFPUSHBUTTON   "Close",IDCLOSE,273,178,50,14
+    EDITTEXT        CW_IDC_LICENSE,7,7,316,165,ES_MULTILINE | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL
 END
 
 
@@ -169,9 +169,9 @@ BEGIN
     CW_IDD_LICENSE, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 303
+        RIGHTMARGIN, 323
         TOPMARGIN, 7
-        BOTTOMMARGIN, 168
+        BOTTOMMARGIN, 192
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -58,6 +58,10 @@ DECLSPEC_NORETURN void CWMainEntrypoint(void) {
 	InsertMenuW(CW.NotifyIcon.Menu, MAXUINT, MF_BYPOSITION | MF_STRING, CW_TIM_EXIT, L"Exit");
 	#pragma endregion
 
+	wcscpy_s(CW.Config.Text, ARRAYSIZE(CW.Config.Text), L"ClipWatch Started!");
+	SendMessageW(CW.Windows.Main, WM_CLIPBOARDUPDATE, 0, 0);
+	CW.Config.Flags |= CW_CFG_RESET_TEXT;
+
 	MSG Message;
 	while(GetMessageW(&Message, NULL, 0, 0)) {
 		TranslateMessage(&Message);
