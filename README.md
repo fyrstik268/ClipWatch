@@ -4,6 +4,8 @@ No longer will you paste the wrong thing when Ctrl-C doesn't work!
 
 ![Notepad_Wmuylc0UJO](https://user-images.githubusercontent.com/91881038/169825875-4dfb351c-7321-4439-add4-a444c5ec2baf.gif)
 
+## NB! v1.2 is in the works, please stand by for the eventual release, hopefully this year.
+
 ## Usage
 Simply just run the .exe file like any other.
 
