@@ -14,6 +14,7 @@ struct CW CW = {
 /* CWMainEntrypoint - The program's entrypoint. Quite self-explanatory, really. */
 DECLSPEC_NORETURN void CWMainEntrypoint(void) {
 	#pragma region Initialization
+	CW.WmTaskbarCreated = RegisterWindowMessageA("TaskbarCreated");
 	CW.ProcessModule = GetModuleHandleW(NULL);
 	CW.UI.Icon = LoadIconW(CW.ProcessModule, MAKEINTRESOURCEW(CW_IDI_ICON));
 	CWLoadConfig();

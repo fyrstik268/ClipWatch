@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Visual Studio\Repositories\ClipWatch\ClipWatch\Resources\Resources.rc
+// Used by C:\Users\thomarne\Documents\Visual Studio 2022\Repositories\ClipWatch\ClipWatch\Resources\Resources.rc
 //
 #define CW_IDI_ICON                     101
 #define CW_IDD_ABOUT                    102

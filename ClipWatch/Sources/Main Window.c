@@ -86,6 +86,11 @@ static dword WINAPI CWPopupAnimator(void* Unused) {
 }
 
 LRESULT CALLBACK CWWindowProc(HWND Window, uint Message, WPARAM WParam, LPARAM LParam) {
+	if(Message == CW.WmTaskbarCreated) {
+		Shell_NotifyIconW(NIM_ADD, &CW.NotifyIcon.Data);
+		return 0;
+	}
+
 	switch(Message) {
 	case WM_CLIPBOARDUPDATE:
 		if(!CW.PresentPopup) CW.PresentPopup = CreateThread(NULL, 1, CWPopupAnimator, NULL, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);

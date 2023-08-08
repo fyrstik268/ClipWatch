@@ -25,8 +25,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,2
- PRODUCTVERSION 1,1,0,2
+ FILEVERSION 1,2,0,0
+ PRODUCTVERSION 1,2,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -41,13 +41,14 @@ BEGIN
     BEGIN
         BLOCK "000904b0"
         BEGIN
-            VALUE "FileDescription", "ClipWatch - Clipboard Update Alerter"
-            VALUE "FileVersion", "1.1.0.2"
+            VALUE "CompanyName", "Tom Arnesen"
+            VALUE "FileDescription", "ClipWatch"
+            VALUE "FileVersion", "1.2.0.0"
             VALUE "InternalName", "ClipWatch"
-            VALUE "LegalCopyright", "© 2022 Tom Arnesen"
+            VALUE "LegalCopyright", "Copyright © 2023 Tom Arnesen"
             VALUE "OriginalFilename", "ClipWatch.exe"
             VALUE "ProductName", "ClipWatch"
-            VALUE "ProductVersion", "1.1.0.2"
+            VALUE "ProductVersion", "1.2.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -90,9 +91,9 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Close",IDOK,112,50,50,14
     ICON            CW_IDI_ICON,CW_IDC_ICON,6,18,20,20
-    CONTROL         "ClipWatch v1.1b - Clipboard Update Alerter\nCopyright © 2022 Tom Arnesen",IDC_STATIC,
+    CONTROL         "ClipWatch v1.2 - Clipboard Update Alerter\nCopyright © 2023 Tom Arnesen",IDC_STATIC,
                     "Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP,36,12,168,18
-    CONTROL         "<a>https://github.com/PersonMedBrukernavn/ClipWatch</a>",CW_IDC_URL,
+    CONTROL         "<a>https://github.com/fyrstik268/ClipWatch</a>",CW_IDC_URL,
                     "SysLink",WS_TABSTOP,38,30,174,12
     PUSHBUTTON      "License",CW_IDC_LICENSE,57,50,50,14
 END
@@ -202,7 +203,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Norwegian Bokmål (Norway) resources
+// Norwegian BokmÃƒÂ¥l (Norway) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NOR)
 LANGUAGE LANG_NORWEGIAN, SUBLANG_NORWEGIAN_BOKMAL
@@ -233,7 +234,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Norwegian Bokmål (Norway) resources
+#endif    // Norwegian BokmÃƒÂ¥l (Norway) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -61,6 +61,7 @@ extern struct CW {
 		LOGFONTW LogicalFontData;
 		byte Flags;
 	} Config;
+	UINT WmTaskbarCreated;
 } CW;
 
 /* Main Window.c */

@@ -4,16 +4,16 @@
 static byte CW_Counter;
 static const wchar* CW_LicenseText = L"MIT License\r\n\
 \r\n\
-Copyright(c) 2022 Tom Arnesen\r\n\
+Copyright(c) 2023 Tom Arnesen\r\n\
 \r\n\
 Permission is hereby granted, free of charge, to any person obtaining a copy \
-of this softwareand associated documentation files(the \"Software\"), to deal \
+of this software and associated documentation files(the \"Software\"), to deal \
 in the Software without restriction, including without limitation the rights \
 to use, copy, modify, merge, publish, distribute, sublicense, and /or sell \
 copies of the Software, and to permit persons to whom the Software is \
 furnished to do so, subject to the following conditions:\r\n\
 \r\n\
-The above copyright noticeand this permission notice shall be included in all \
+The above copyright notice and this permission notice shall be included in all \
 copies or substantial portions of the Software.\r\n\
 \r\n\
 THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR \
@@ -91,7 +91,7 @@ intptr CALLBACK CWAboutDialog(HWND Dialog, uint Message, WPARAM WParam, LPARAM L
 		return true;
 
 	case WM_NOTIFY:
-		if(((NMHDR*)LParam)->code == NM_CLICK && ((NMHDR*)LParam)->idFrom == CW_IDC_URL) ShellExecuteW(NULL, L"open", L"https://github.com/PersonMedBrukernavn/ClipWatch", NULL, NULL, SW_SHOWNORMAL);
+		if(((NMHDR*)LParam)->code == NM_CLICK && ((NMHDR*)LParam)->idFrom == CW_IDC_URL) ShellExecuteW(NULL, L"open", L"https://github.com/fyrstik268/ClipWatch", NULL, NULL, SW_SHOWNORMAL);
 		return true;
 
 	default:
